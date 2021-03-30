@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET 
 from tkinter import filedialog
+from Modelo.Nodo import Nodo
 from io import open
 
 class Archivo():
@@ -10,6 +11,7 @@ class Archivo():
         self.fila = 0
         self.columna = 0
         self.imagen = ''
+        self.ejemplo = []
 
     def open_File(self):
             try:
@@ -60,3 +62,24 @@ class Archivo():
 
 
                 
+        
+
+        i = 0
+        j = 10
+        fila = 1
+        columna = 1 
+        while i < j:
+            guardar = Nodo(i+1,fila,columna,f'posicion({fila},{columna})')
+            self.ejemplo.append(guardar)
+            columna+=1
+            if (i == 4):
+                columna = 1
+                fila += 1
+            
+            i+=1
+        
+          
+        i = 0 
+        while i < len(self.ejemplo):
+            print(self.ejemplo[i])
+            i+=1

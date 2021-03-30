@@ -4,7 +4,7 @@ class Nodo():
         self.contador = contador
         self.x = x
         self.y = y
-        self.dato = dato
+        self.dato = dato # 0 -> - | 1 -> *
         self.derecha = derecha
         self.izquierda = izquierda
         self.abajo = abajo
@@ -49,8 +49,12 @@ class Nodo():
         return self.abajo
     def set_abajo(self,abajo):
         self.abajo = abajo
-
+    '''
     def __str__(self):
-
-        return f"{self.contador}"
-
+        if self.dato == 1:
+            return f"{self.contador}.- ({self.x},{self.y}) Dato: *"
+        elif self.dato == 0:
+            return f"{self.contador}.- ({self.x},{self.y}) Dato: -"
+    '''
+    def __str__(self):
+        return f"{self.contador}.- ({self.x},{self.y}) Dato: {self.dato}"
