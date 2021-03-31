@@ -1,0 +1,36 @@
+<matrices>
+	<matriz>
+		<nombre>Matriz#1</nombre>
+			<filas>12</filas>
+			<columnas>12</columnas>
+			<imagen>
+			------------
+			-----**-----
+			----*--*----
+			---*----*---
+			--*--**--*--
+			-*--****--*-
+			------------
+			-*-******-*-
+			-*--------*-
+			-*--------*-
+			-**********-
+			------------
+			</imagen>
+	</matriz>
+	<matriz>
+		<nombre>Matriz#2</nombre>
+			<filas>8</filas>
+			<columnas>5</columnas>
+			<imagen>
+			-----
+			-***-
+			-*-*-
+			-***-
+			-----
+			-*-*-
+			--*--
+			-*-*-
+			</imagen>
+	</matriz>
+</matrices>

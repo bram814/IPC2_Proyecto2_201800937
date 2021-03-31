@@ -15,22 +15,12 @@ class Matriz_Ortogonal():
 
         if (self.get_columna().buscar(x) == None):
             self.get_columna().agregar(x)
-            print(f"{x} - {dato}")
         
         if (self.get_fila().buscar(y) == None):
             self.get_fila().agregar(y)
-            print(f"{y} - {dato}")
 
-        aux_columna = None
-        aux_fila = None
-
-        #aux_columna = self.get_columna().buscar(x)
-        #aux_fila = self.get_fila().buscar(y)
         self.get_columna().buscar(x).get_columna().agregar(contador,x,y,dato)
         self.get_fila().buscar(y).get_fila().agregar(contador,x,y,dato)
-        #aux_columna.get_columna().agregar(contador,x,y,dato)
-        #aux_fila.get_fila().agregar(contador,x,y,dato)
-        print(f"Inserto dato: {dato}, pos ({x},{y})")
         self.size_ortogonal += 1
 
 
@@ -53,8 +43,25 @@ class Matriz_Ortogonal():
             aux = aux.get_siguiente()
             i += 1
 
+    def mostrar_matriz(self):
+        aux = self.get_fila().get_primero()
+        longitud_fila = self.get_fila().size_LCF
+        i = 0
 
-        
+        while i < longitud_fila:
+            
+            j = 0
+            longitud_lista = aux.get_fila().size_LH
+            aux2 = aux.get_fila().get_primero()
+            while j < longitud_lista:
+                
+                print(aux2)
+                aux2 = aux2.get_derecha()
+                j += 1 
+
+            aux = aux.get_siguiente()
+            i += 1
+
 
     def get_fila(self):
         return self.fila
@@ -65,5 +72,8 @@ class Matriz_Ortogonal():
         return self.columna
     def set_columna(self,columna):
         self.columna = columna
+
+    def __str__(self):
+        return f"{self.fila}"
 
     

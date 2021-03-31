@@ -3,6 +3,10 @@ from tkinter import filedialog
 from Modelo.Nodo import Nodo
 from io import open
 
+from Controlador.Graphviz import Graphviz
+from Modelo.Matriz_Ortogonal import Matriz_Ortogonal
+from Modelo.Lista_Vertical import Lista_Vertical
+
 
 from tkinter import *
 from tkinter import ttk
@@ -14,14 +18,20 @@ class Pantalla():
     def __init__(self):
 
         
-        self.contador_datos = 1
+        
+        self.contador_datos = 0
+        self.nombre = ''
         self.fila = 0
         self.columna = 0
         self.imagen = ''
-        self.ejemplo = []
+        # ------------------- METODOS O FUNCIONES ----------------------
+        self.graphivz = Graphviz()
+
+        # ------------------- MATRIZ ORTOGONAL ----------------------
+        self.matriz_ortogonal = Matriz_Ortogonal()
+        self.matriz_ortogonal_nombre = Matriz_Ortogonal()
 
         self.cargar_archivo = Archivo()
-        self.valor_ = ""
 
         self.root_window = Tk()
         self.root_window.geometry("1350x670+0+0")
@@ -67,13 +77,24 @@ class Pantalla():
 
         # ---------------------------------- ESCOGER MATRIZ -------------------------------
 
-        self.l1 = Label(self.root_window,text="Seleccione la Matriz:")
+        self.l1 = Label(self.root_window,text="Seleccione la Matriz 1:")
         self.l1.grid(row=2,column=0)
         self.l1.config(padx=10,pady=10)
-
-        self.valor_=StringVar()
         self.combo = ttk.Combobox(self.root_window,value=self.cargar_archivo.ejemplo,width=10)
         self.combo.grid(row=3,column=0)
+
+        self.l2 = Label(self.root_window,text="Seleccione la Matriz 2:")
+        self.l2.grid(row=2,column=1)
+        self.l2.config(padx=10,pady=10)
+
+        self.combo2 = ttk.Combobox(self.root_window,value=self.cargar_archivo.ejemplo,width=10)
+        self.combo2.grid(row=3,column=1)
+
+
+        # ------------------------------------- BOTON -----------------------------------------
+
+        self.boton_mostrar = Button(self.root_window, text="Mostrar", width=10, height=1, command=lambda:self.graphivz.generar_imagen(self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo.get(),self.combo2.get()))
+        self.boton_mostrar.grid(row=3 , column=2)
 
 
         self.root_window.config(menu=self.barra_menu)
@@ -103,7 +124,10 @@ class Pantalla():
 
         for element in root:
             for subelement in element:
-                if (subelement.tag == 'filas'):
+                if (subelement.tag == 'nombre'):
+                    self.nombre = subelement.text
+                    print(f'NOMBRE DE LA MATRIZ {self.nombre}')
+                elif (subelement.tag == 'filas'):
                     self.fila = subelement.text
                     print(f'aca hay una fila - {self.fila}')
                 elif (subelement.tag == 'columnas'):
@@ -123,9 +147,12 @@ class Pantalla():
                         print(f"CONCUERDA LA CANTIDAD DE FILA Y COLUMNA {contador_imagen} - {total_datos}")
                         fila = 1
                         columna = 1
+                        self.contador_datos += 1
+                        self.matriz_ortogonal_nombre.agregar(int(self.contador_datos),int(self.fila),int(self.columna),str(self.nombre))
                         for image in self.imagen:
                             if (image == "-" or image == "*"):
-                                print(f"({self.contador_datos}.- ({fila},{columna}) Dato: {image}")
+                                #print(f"({self.contador_datos}.- ({fila},{columna}) Dato: {image}")
+                                self.matriz_ortogonal.agregar(int(self.contador_datos),int(fila),int(columna),str(image))
 
                                 if (int(columna) == int(self.columna)):
                                     columna = 1
@@ -136,31 +163,16 @@ class Pantalla():
                     else:
                         print(f'ocurrio algo {contador_imagen} - {total_datos}')
 
-                    self.contador_datos += 1
-
-
-                
-        
-
+        temp = []
         i = 0
-        j = 10
-        fila = 1
-        columna = 1 
-        while i < j:
-            guardar = Nodo(i+1,fila,columna,f'posicion({fila},{columna})')
-            self.ejemplo.append(guardar)
-            columna+=1
-            if (i == 4):
-                columna = 1
-                fila += 1
-            
-            i+=1
-        
-          
-        i = 0 
-        while i < len(self.ejemplo):
-            print(self.ejemplo[i].get_contador())
-            
-            i+=1
+        temp.append(i)
+        while i < self.contador_datos:
+            temp.append(i+1)
+            i +=1
+        self.combo["values"] = temp
+        self.combo2["values"] = temp
 
-        self.combo["values"] = self.ejemplo
+        
+
+
+        

@@ -2,25 +2,6 @@ from Vista.Menu import Menu
 from Vista.Pantalla import Pantalla
 
 
-class main():
-
-
-    def __init__(self):
-        
-        #self.llamar = Menu()
-        self.vista = Pantalla()
-        
-
-
-
-    def __menu__(self):
-
-        #entero = IntVar()  # Declara variable de tipo entera
-        #flotante = DoubleVar()  # Declara variable de tipo flotante
-        #cadena = StringVar()  # Declara variable de tipo cadena
-        #booleano = BooleanVar()  # Declara variable de tipo booleana
-        pass
-
 
 from Modelo.Lista_Vertical import Lista_Vertical
 from Modelo.Lista_Horizontal import Lista_Horizontal
@@ -28,6 +9,21 @@ from Modelo.Lista_Cabecera_Columna import Lista_Cabecera_Columna
 from Modelo.Lista_Cabecera_Fila import Lista_Cabecera_Fila
 from Modelo.Matriz_Ortogonal import Matriz_Ortogonal
 from Modelo.Nodo import Nodo
+
+
+
+class main():
+
+
+    def __init__(self):
+        
+        #self.llamar = Menu()
+        #entero = IntVar()  # Declara variable de tipo entera
+        #flotante = DoubleVar()  # Declara variable de tipo flotante
+        #cadena = StringVar()  # Declara variable de tipo cadena
+        #booleano = BooleanVar()  # Declara variable de tipo booleana
+        self.vista = Pantalla()
+        
 
 if __name__ == "__main__":
     '''
@@ -60,4 +56,4 @@ if __name__ == "__main__":
 
     '''
     instance = main()
-    instance.__menu__()
+    instance.vista
