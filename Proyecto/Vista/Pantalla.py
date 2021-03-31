@@ -10,8 +10,9 @@ from Modelo.Lista_Vertical import Lista_Vertical
 
 from tkinter import *
 from tkinter import ttk
-from Controlador.Archivo import Archivo
 from PIL import ImageTk, Image
+from Controlador.Archivo import Archivo
+
 
 class Pantalla():
 
@@ -50,6 +51,7 @@ class Pantalla():
         # ------------------------------------ OPERACIONES ------------------------------------ 
 
         self.operacion = Menu(self.barra_menu)
+        self.operacion.add_command(label="SOBRE UNA IMAGEN")
         self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen")
         self.operacion.add_command(label="2.- Rotación Vertical de una Imagen")
         self.operacion.add_command(label="3.- Transpuesta de una Imagen")
@@ -58,6 +60,12 @@ class Pantalla():
         self.operacion.add_command(label="6.- Agregar Línea Vertical a una Imagen")
         self.operacion.add_command(label="7.- Agregar Rectángulo")
         self.operacion.add_command(label="8.- Agregar Triángulo Rectángulo")
+        self.operacion.add_separator()
+        self.operacion.add_command(label="SOBRE DOS IMAGENES")
+        self.operacion.add_command(label="1.- Union")
+        self.operacion.add_command(label="2.- Intersección")
+        self.operacion.add_command(label="3.- Diferencia")
+        self.operacion.add_command(label="4.- Diferencia Simétrica")
 
         self.barra_menu.add_cascade(label="Operaciones", menu=self.operacion)
 
@@ -96,6 +104,15 @@ class Pantalla():
         self.boton_mostrar = Button(self.root_window, text="Mostrar", width=10, height=1, command=lambda:self.graphivz.generar_imagen(self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo.get(),self.combo2.get()))
         self.boton_mostrar.grid(row=3 , column=2)
 
+        #self.boton_imagen_original =  Button(self.root_window, text="Cargar Imagen", width=10, height=1, command=lambda:self.mostar_imagen_original())
+        #self.boton_imagen_original.grid(row=4 , column=0)
+        
+        # ------------------------------------- IMAGEN -----------------------------------------
+
+        #self.imagen_original = ImageTk.PhotoImage(Image.open('imagen.gv.png'))
+        #self.label_imagen_original = Label(image=self.imagen_original)
+        #self.label_imagen_original.grid(row=5, column=0)
+        
 
         self.root_window.config(menu=self.barra_menu)
         self.root_window.mainloop()
@@ -175,4 +192,7 @@ class Pantalla():
         
 
 
-        
+    def mostar_imagen_original(self):
+        self.imagen_original = ImageTk.PhotoImage(Image.open('imagen.gv.png'))
+        self.label_imagen_original = Label(image=self.imagen_original)
+        self.label_imagen_original.grid(row=5, column=0)

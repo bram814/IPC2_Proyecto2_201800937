@@ -1,4 +1,8 @@
-from graphviz import Digraph, nohtml
+from graphviz import Digraph
+from tkinter import *
+from tkinter import ttk
+from PIL import ImageTk, Image
+
 class Graphviz():
 
 
@@ -26,11 +30,17 @@ class Graphviz():
                 self.una_imagen(cont_matriz_uno)
             elif (0< int(cont_matriz_dos)):
                 self.dos_imagenes(cont_matriz_uno,cont_matriz_dos)
-            
 
+
+        self.imagen_original = ImageTk.PhotoImage(Image.open('imagen.gv.png'))
+        self.label_imagen_original = Label(image=self.imagen_original)
+        self.label_imagen_original.grid(row=5, column=0)
+        
+            
        
+
     def una_imagen(self,contador):
-        g = Digraph('g', format='svg',filename='imagen.gv',node_attr={'shape': 'plaintext'})
+        g = Digraph('g', format='png',filename='imagen.gv',node_attr={'shape': 'plaintext'})
         
         #<td PORT="f1> port -> SIRVE PARA APUNTAR 
     
@@ -44,7 +54,7 @@ class Graphviz():
         g.view()
 
     def dos_imagenes(self,contador,contador2):
-        g = Digraph('g', format='svg',filename='imagen.gv',node_attr={'shape': 'plaintext'})
+        g = Digraph('g', format='png',filename='imagen.gv',node_attr={'shape': 'plaintext'})
         
     
         g.node('struct1', f'''<
@@ -206,3 +216,27 @@ class Graphviz():
         print(tabla)
         return tabla
 
+    def rotacion_horizontal(self):
+        pass
+    def rotacion_vertica(self):
+        pass
+    def transpuesta(self):
+        pass
+    def limpiar_zona(self):
+        pass
+    def agregar_linea_horizontal(self):
+        pass
+    def agregar_linea_vertical(self):
+        pass
+    def agregar_rectaungulo(self):
+        pass
+    def agregar_triangulo_rectangulo(self):
+        pass
+    def union(self):
+        pass
+    def interseccion(self):
+        pass
+    def diferencia(self):
+        pass
+    def diferencia_simetra(self):
+        pass
