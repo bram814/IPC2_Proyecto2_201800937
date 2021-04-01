@@ -54,7 +54,7 @@ class Pantalla():
         self.operacion.add_command(label="SOBRE UNA IMAGEN")
         self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen", command=lambda:self.graphivz.rotacion_horizontal(self.combo.get()))
         self.operacion.add_command(label="2.- Rotación Vertical de una Imagen", command=lambda:self.graphivz.rotacion_vertical(self.combo.get()))
-        self.operacion.add_command(label="3.- Transpuesta de una Imagen")
+        self.operacion.add_command(label="3.- Transpuesta de una Imagen", command=lambda:self.graphivz.transpuesta(self.combo.get()))
         self.operacion.add_command(label="4.- Limpiar Zona de una Imagen")
         self.operacion.add_command(label="5.- Agregar Línea Horizontal a una Imagen")
         self.operacion.add_command(label="6.- Agregar Línea Vertical a una Imagen")
@@ -104,8 +104,8 @@ class Pantalla():
         self.boton_mostrar = Button(self.root_window, text="Mostrar", width=10, height=1, command=lambda:self.graphivz.generar_imagen(self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo.get(),self.combo2.get()))
         self.boton_mostrar.grid(row=3 , column=2)
 
-        #self.boton_imagen_original =  Button(self.root_window, text="Cargar Imagen", width=10, height=1, command=lambda:self.mostar_imagen_original())
-        #self.boton_imagen_original.grid(row=4 , column=0)
+        #self.boton_limpiar =  Button(self.root_window, text="Limpiar Resultado", width=15, height=1, command=lambda:self.graphivz.limpiar_resultado())
+        #self.boton_limpiar.grid(row=3, column=4)
         
         # ------------------------------------- IMAGEN -----------------------------------------
 
@@ -194,9 +194,3 @@ class Pantalla():
         self.combo2["values"] = temp
 
         
-
-
-    def mostar_imagen_original(self):
-        self.imagen_original = ImageTk.PhotoImage(Image.open('imagen.gv.png'))
-        self.label_imagen_original = Label(image=self.imagen_original)
-        self.label_imagen_original.grid(row=5, column=0)
