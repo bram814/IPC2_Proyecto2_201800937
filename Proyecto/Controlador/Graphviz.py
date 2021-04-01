@@ -18,7 +18,7 @@ class Graphviz():
         self.matriz_ortogonal = matriz
         self.matriz_ortogonal_nombre = matriz2
         print('\n DATOS')
-        #self.matriz_ortogonal_nombre.mostrar_matriz()
+        self.matriz_ortogonal_nombre.mostrar_matriz()
         #self.matriz_ortogonal.mostrar_matriz()
 
         print(f'\n SELECCIONA LA MATRIZ 1 -> {cont_matriz_uno} = SELECCIONA LA MATRIZ 2 -> {cont_matriz_dos}')
@@ -89,7 +89,7 @@ class Graphviz():
                     self.columna_matriz1 = aux2.get_y()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
-                    while x < int(aux2.get_x()):
+                    while x < int(aux2.get_y()):
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
@@ -162,7 +162,7 @@ class Graphviz():
                     self.columna_matriz1 = aux2.get_y()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
-                    while x < int(aux2.get_x()):
+                    while x < int(aux2.get_y()):
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
@@ -349,7 +349,7 @@ class Graphviz():
                     self.columna_matriz1 = aux2.get_y()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
-                    while x < int(aux2.get_x()):
+                    while x < int(aux2.get_y()):
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
