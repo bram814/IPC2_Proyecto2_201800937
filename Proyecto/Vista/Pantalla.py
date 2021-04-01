@@ -52,7 +52,7 @@ class Pantalla():
 
         self.operacion = Menu(self.barra_menu)
         self.operacion.add_command(label="SOBRE UNA IMAGEN")
-        self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen")
+        self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen", command=lambda:self.graphivz.rotacion_horizontal(self.combo.get()))
         self.operacion.add_command(label="2.- Rotación Vertical de una Imagen")
         self.operacion.add_command(label="3.- Transpuesta de una Imagen")
         self.operacion.add_command(label="4.- Limpiar Zona de una Imagen")

@@ -18,7 +18,7 @@ class Graphviz():
         self.matriz_ortogonal = matriz
         self.matriz_ortogonal_nombre = matriz2
         print('\n DATOS')
-        self.matriz_ortogonal_nombre.mostrar_matriz()
+        #self.matriz_ortogonal_nombre.mostrar_matriz()
         #self.matriz_ortogonal.mostrar_matriz()
 
         print(f'\n SELECCIONA LA MATRIZ 1 -> {cont_matriz_uno} = SELECCIONA LA MATRIZ 2 -> {cont_matriz_dos}')
@@ -72,7 +72,6 @@ class Graphviz():
         g.view()
 
     def generar_tabla_nombre(self,contador):
-        print('ENTRO1')
         tabla = ''
         aux = self.matriz_ortogonal_nombre.get_fila().get_primero()
         longitud_fila = self.matriz_ortogonal_nombre.get_fila().size_LCF
@@ -105,7 +104,6 @@ class Graphviz():
         return tabla
 
     def generar_tabla_datos(self,contador,fila,columna):
-        print('entro 2')
         tabla = ''
         i = 0
         longitud = int(fila)*int(columna)
@@ -143,10 +141,11 @@ class Graphviz():
         print(tabla)
         return tabla
 
-
-    def generar_tabla_nombre2(self,contador):
-        print('ENTRO1')
-        tabla = ''
+    # ----------------------------------------------------- PARA UNA IMAGEN -----------------------------------------------------
+    def rotacion_horizontal(self,contador):
+        tabla = ""
+        tabla_temp = ""
+        tabla_final = ""
         aux = self.matriz_ortogonal_nombre.get_fila().get_primero()
         longitud_fila = self.matriz_ortogonal_nombre.get_fila().size_LCF
         i = 0
@@ -167,76 +166,128 @@ class Graphviz():
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
-                    print(tabla)
-                    return tabla
+
+                    fila_separacion = 0
+                    if self.fila_matriz1 % 2 == 0: # par
+                        fila_separacion = int(self.fila_matriz1) / 2
+                        print(f"fila par: {str(fila_separacion)}")
+                        fila = 1
+                        fila_ultimo = self.fila_matriz1
+                        columna = 1
+                        columna_ultima = self.columna_matriz1
+                        longitud = int(self.fila_matriz1) * int(self.columna_matriz1)
+
+                        x = 0
+                        while x < longitud:
+                            
+                            if (int(columna) < int(self.columna_matriz1)):
+                                
+                                temp1 = self.matriz_ortogonal.encontrar_posicion(contador,fila,columna).get_dato()
+                                temp2 = self.matriz_ortogonal.encontrar_posicion(contador,fila_ultimo,columna).get_dato()
+                                if temp1 == "-":
+                                    temp1 = " "
+                                if (temp2 == "-"):
+                                    temp2 = " "
+
+                                if (int(columna == 1)):
+                                    tabla_temp = ""
+                                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                                    tabla_temp += f"<tr>\n\t<td>{fila_ultimo}</td>\n"
+                                
+                                tabla += f"\t<td>{temp2}</td>\n"
+                                tabla_temp += f"\t<td>{temp1}</td>\n" 
+
+                                columna += 1
+                                
+
+
+                            elif (int(columna) == int(self.columna_matriz1)):
+
+                                temp1 = self.matriz_ortogonal.encontrar_posicion(contador,fila,columna).get_dato()
+                                temp2 = self.matriz_ortogonal.encontrar_posicion(contador,fila_ultimo,columna).get_dato()
+                                if temp1 == "-":
+                                    temp1 = " "
+                                if (temp2 == "-"):
+                                    temp2 = " "
+
+                                
+                                tabla += f"\t<td>{temp2}</td>\n</tr>"
+                                tabla_temp += f"\t<td>{temp1}</td>\n</tr>\n" 
+                                tabla_final = f"{tabla_temp} {tabla_final}"
+
+                                if (int(fila) == int(fila_separacion)):
+                                    print("llgamos a la mitad - terminar")
+                                    tabla = f"{tabla} {tabla_final}"
+                                    print(tabla)
+
+                                    g = Digraph('g', format='png',filename='rotacion_horizontal.gv',node_attr={'shape': 'plaintext'})
+        
+                                    g.node('node01', f'''<
+                                    <table border="0" cellborder="1" cellspacing="0">
+                                    {str(tabla)}
+                                    </table>>''')
+                                    
+                                    g.view()
+
+                                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('rotacion_horizontal.gv.png'))
+                                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                                    break
+
+
+                                columna = 1
+                                fila += 1
+                                fila_ultimo -= 1
+
+
+
+
+                            x += 1
+
+
+                        
+
+
+
+
+                        break
+                    else: # impar
+                        fila_separacion = (int(self.fila_matriz1) / 2) - 0.5
+                        print("fila impar")
+                        break
+                    
+                   
                 aux2 = aux2.get_derecha()
                 j += 1 
 
             aux = aux.get_siguiente()
             i += 1
 
-        return tabla
-
-    def generar_tabla_datos2(self,contador,fila,columna):
-        print('entro 2')
-        tabla = ''
-        i = 0
-        longitud = int(fila)*int(columna)
-        fila_temp = 1
-        columna_temp = 1
-        print(f'longitud: {longitud}')
-        while i < longitud:
-
-            if (int(columna_temp) < columna):
-
-                if (int(columna_temp == 1)):
-                    tabla += f"<tr>\n\t<td>{fila_temp}</td>\n"
-                dato = self.matriz_ortogonal.encontrar_posicion(contador,fila_temp,columna_temp)
-
-                if (dato.get_dato() == '-'):
-                    tabla += "\t<td> </td>\n"
-                elif (dato.get_dato() == '*'):
-                    tabla += "\t<td>*</td>\n"
-                #print(f'{contador}.- ({fila_temp},{columna_temp}) Dato: {dato}')
-                columna_temp += 1
-
-            elif (int(columna_temp) == columna):
-                dato = self.matriz_ortogonal.encontrar_posicion(contador,fila_temp,columna_temp)
-                if (dato.get_dato() == '-'):
-                    tabla += "\t<td> </td>\n"
-                elif (dato.get_dato() == '*'):
-                    tabla += "\t<td>*</td>\n"
-                #print(f'{contador}.- ({fila_temp},{columna_temp}) Dato: {dato}')
-                tabla += "</tr>\t"
-                fila_temp += 1
-                columna_temp = 1
 
 
-            i += 1
-        print(tabla)
-        return tabla
 
-    def rotacion_horizontal(self):
+
+
+    def rotacion_vertica(self,contador):
         pass
-    def rotacion_vertica(self):
+    def transpuesta(self,contador):
         pass
-    def transpuesta(self):
+    def limpiar_zona(self,contador):
         pass
-    def limpiar_zona(self):
+    def agregar_linea_horizontal(self,contador):
         pass
-    def agregar_linea_horizontal(self):
+    def agregar_linea_vertical(self,contador):
         pass
-    def agregar_linea_vertical(self):
+    def agregar_rectaungulo(self,contador):
         pass
-    def agregar_rectaungulo(self):
+    def agregar_triangulo_rectangulo(self,contador):
         pass
-    def agregar_triangulo_rectangulo(self):
+    # ----------------------------------------------------- PARA DOS IMAGENES -----------------------------------------------------
+    def union(self,contador1,contador2):
         pass
-    def union(self):
+    def interseccion(self,contador1,contador2):
         pass
-    def interseccion(self):
+    def diferencia(self,contador1,contador2):
         pass
-    def diferencia(self):
-        pass
-    def diferencia_simetra(self):
+    def diferencia_simetra(self,contador1,contador2):
         pass
