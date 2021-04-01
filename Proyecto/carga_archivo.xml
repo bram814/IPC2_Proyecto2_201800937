@@ -18,17 +18,18 @@
   </matriz>
   <matriz>
     <nombre>Matriz_2</nombre>
-	  <filas>8</filas>
-	  <columnas>8</columnas>
+	  <filas>9</filas>
+	  <columnas>9</columnas>
 	  <imagen>
-	      --------
-		  -*-*-*-*
-		  --*---*-
-		  -*-*--*-
-		  --------
-		  -***--*-
-		  --*--*-*
-		  -***--*-
+	      ---------
+		  ****-***-
+		  -**----*-
+		  -**----*-
+		  -**----*-
+		  ****-***-
+		  ---------
+		  ---------
+		  ---------
 	  </imagen>
   </matriz>
 
