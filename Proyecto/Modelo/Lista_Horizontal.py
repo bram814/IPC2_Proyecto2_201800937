@@ -41,14 +41,22 @@ class Lista_Horizontal():
                 aux1 = self.get_primero()
             
                 while int(aux1.get_x()) <= int(nodo_nuevo.get_x()):
+                    if  int(aux1.get_x()) == self.get_ultimo().get_x():
+                        print("ojito")
+                        break
                     aux1 = aux1.get_derecha()
+                    
+                if  int(aux1.get_x()) == self.get_ultimo().get_x():
+                    self.get_ultimo().set_derecha(nodo_nuevo)
+                    nodo_nuevo.set_izquierda(self.get_ultimo())
+                    self.set_ultimo(nodo_nuevo)
+                else:
+                    aux2 = aux1.get_izquierda()
 
-                aux2 = aux1.get_izquierda()
-
-                aux2.set_derecha(nodo_nuevo)
-                nodo_nuevo.set_derecha(aux1)
-                aux1.set_izquierda(nodo_nuevo)
-                nodo_nuevo.set_izquierda(aux2)
+                    aux2.set_derecha(nodo_nuevo)
+                    nodo_nuevo.set_derecha(aux1)
+                    aux1.set_izquierda(nodo_nuevo)
+                    nodo_nuevo.set_izquierda(aux2)
         self.size_LH += 1
 
 

@@ -18,9 +18,9 @@ class Graphviz():
     def generar_imagen(self,matriz,matriz2,cont_matriz_uno,cont_matriz_dos):
         self.matriz_ortogonal = matriz
         self.matriz_ortogonal_nombre = matriz2
-        print('\n DATOS')
-        self.matriz_ortogonal_nombre.mostrar_matriz()
-        #self.matriz_ortogonal.mostrar_matriz()
+        #print('\n DATOS')
+        #self.matriz_ortogonal_nombre.mostrar_matriz()
+        #elf.matriz_ortogonal.mostrar_matriz()
 
         print(f'\n SELECCIONA LA MATRIZ 1 -> {cont_matriz_uno} = SELECCIONA LA MATRIZ 2 -> {cont_matriz_dos}')
 
@@ -113,7 +113,7 @@ class Graphviz():
         longitud = int(fila)*int(columna)
         fila_temp = 1
         columna_temp = 1
-        print(f'longitud: {longitud}')
+        #print(f'longitud: {longitud}')
         while i < longitud:
 
             if (int(columna_temp) < columna):
@@ -174,7 +174,7 @@ class Graphviz():
                     fila_separacion = 0
                     if self.fila_matriz1 % 2 == 0: # par
                         fila_separacion = int(self.fila_matriz1) / 2
-                        print(f"fila par: {str(fila_separacion)}")
+                        #print(f"fila par: {str(fila_separacion)}")
                         fila = 1
                         fila_ultimo = self.fila_matriz1
                         columna = 1
@@ -218,7 +218,7 @@ class Graphviz():
                                 tabla_final = f"{tabla_temp} {tabla_final}"
 
                                 if (int(fila) == int(fila_separacion)):
-                                    print("llgamos a la mitad - terminar")
+                                    #print("llgamos a la mitad - terminar")
                                     tabla = f"{tabla} {tabla_final}"
                                     #print(tabla)
 
@@ -247,7 +247,7 @@ class Graphviz():
                     else: # impar
 
                         fila_separacion = (int(self.fila_matriz1) / 2) + 0.5
-                        print(f"fila impar {fila_separacion}")
+                        #print(f"fila impar {fila_separacion}")
                         fila = 1
                         fila_ultimo = self.fila_matriz1
                         columna = 1
@@ -299,7 +299,7 @@ class Graphviz():
                                 
 
                                 if (int(fila) == int(fila_separacion)):
-                                    print("llgamos a la mitad - terminar")
+                                    #print("llgamos a la mitad - terminar")
                                     tabla = f"{tabla} {tabla_final}"
                                     #print(tabla)
 
@@ -368,7 +368,7 @@ class Graphviz():
                     columna_separacion = 0
                     if self.columna_matriz1 % 2 == 0: # par
                         columna_separacion = int(self.columna_matriz1) / 2
-                        print(f"Columna par: {str(columna_separacion)}")
+                        #print(f"Columna par: {str(columna_separacion)}")
                         
                         fila = 1
                         #fila_ultimo = self.fila_matriz1
@@ -412,7 +412,7 @@ class Graphviz():
                                 tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
 
                                 if (int(columna) == int(columna_separacion)): 
-                                    print("llgamos a la mitad - terminar")
+                                    #print("llgamos a la mitad - terminar")
                                     tabla = f"{tabla} {tabla_temp}\n</tr>"
                                     #print(tabla)
 
@@ -446,7 +446,7 @@ class Graphviz():
                     else: # impar
 
                         columna_separacion = (int(self.columna_matriz1) / 2) + 0.5
-                        print(f"Columna impar {columna_separacion}")
+                        #print(f"Columna impar {columna_separacion}")
                         fila = 1
                         #fila_ultimo = self.fila_matriz1
                         columna = 1
@@ -490,7 +490,7 @@ class Graphviz():
                                 #tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
 
                                 if (int(columna) == int(columna_separacion)): #$ error
-                                    print("llgamos a la mitad - terminar")
+                                    #print("llgamos a la mitad - terminar")
                                     tabla = f"{tabla} {tabla_temp}\n</tr>"
                                     #print(tabla)
 
@@ -528,10 +528,11 @@ class Graphviz():
 
             aux = aux.get_siguiente()
             i += 1
-
+    # ---------------------------------------------------------------- TRANSPUESTA --------------------------------------------------------------------------
+   
     def transpuesta(self,contador):
         tabla = ""
-        print('ALO')
+       
         #tabla_final = ""
         aux = self.matriz_ortogonal_nombre.get_fila().get_primero()
         longitud_fila = self.matriz_ortogonal_nombre.get_fila().size_LCF
@@ -549,73 +550,220 @@ class Graphviz():
                     self.columna_matriz1 = aux2.get_y()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
-                    while x < int(aux2.get_y()):
+                    while x < int(aux2.get_x()):
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
-                    print(tabla)
+                    #print(tabla)
                     longitud = int(self.fila_matriz1) * int(self.columna_matriz1)
                     x = 0
                     columna = 1
                     fila = 1
 
-                    while x < longitud:
-                        
-                        if int(columna) < int(self.columna_matriz1):
-                            print('hla?s')
-                            if int(columna) == 1:
-                                tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                    if int(self.fila_matriz1) == int(self.columna_matriz1):
 
-                            if (0 < int(fila) <= int(self.columna_matriz1) and  0 < int(columna) <=int(self.fila_matriz1)):
-                                temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
-                                if temp1 == "-":
-                                    temp1 = " "
+                        while x < longitud:
 
-                                tabla += f"<td>{temp1}</td>\n"
-                            else:
-
-                                tabla += "<td> </td>\n"
-                                
-                            columna += 1
-
-                        elif int(columna) == int(self.columna_matriz1):
                             
-                            if (0 < int(fila) <= int(self.columna_matriz1) and  0 < int(columna) <=int(self.fila_matriz1)):
-                                temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
-                                if temp1 == "-":
-                                    temp1 = " "
-
-                                tabla += f"\t<td>{temp1}</td>\n</tr>"
-                            else:
-
-                                tabla += "\t<td> </td>\n</tr>"
-
-                            if int(fila) == int(self.fila_matriz1):
-                                print(tabla)
-                                g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
-                                g.node('node01', f'''<
-                                <table border="0" cellborder="1" cellspacing="0">
-                                {str(tabla)}
-                                </table>>''')
-                                g.view()
-
-                                self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('transpuesta.gv.png'))
-                                self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
-                                self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
-                                
-                                self.nombre_label = Label(text="Imagen Matriz Transpuesta")
-                                self.nombre_label.grid(row=6, column=3)
-
-
-                                break
+                            if int(columna) < int(self.columna_matriz1):
                             
-                            columna = 1
-                            fila += 1
+                                if int(columna) == 1:
+                                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                            
+                                if (0 < int(fila) <= int(self.columna_matriz1)) and 0 < int(columna) <=int(self.fila_matriz1):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+        
+
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                else:
+                                    
+                                    tabla += "\t<td> </td>\n"
+                                    
+                                columna += 1
+
+                            elif int(columna) == int(self.columna_matriz1):
+                                
+                                if (0 < int(fila) <= int(self.columna_matriz1) and  0 < int(columna) <=int(self.fila_matriz1)):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+                                    tabla += f"\t<td>{temp1}</td>\n</tr>"
+                                else:
+                                    tabla += "\t<td> </td>\n</tr>"
+
+                                if int(fila) == int(self.columna_matriz1):
+                                    #print(tabla)
+                                    g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
+                                    g.node('node01', f'''<
+                                    <table border="0" cellborder="1" cellspacing="0">
+                                    {str(tabla)}
+                                    </table>>''')
+                                    g.view()
+
+                                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('transpuesta.gv.png'))
+                                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                                    
+                                    self.nombre_label = Label(text="Imagen Matriz Transpuesta")
+                                    self.nombre_label.grid(row=6, column=3)
+
+
+                                    break
+                                
+                                columna = 1
+                                fila += 1
+                            
+
+                            x += 1
+                    elif self.columna_matriz1 < self.fila_matriz1:
+                        while x < longitud:
+
+                            
+                            if int(columna) < int(self.columna_matriz1):
+                            
+                                if int(columna) == 1:
+                                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                            
+                                if (0 < int(fila) <= int(self.columna_matriz1)) and 0 < int(columna) <=int(self.fila_matriz1):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+        
+
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                else:
+                                    
+                                    tabla += "\t<td> </td>\n"
+                                    
+                                columna += 1
+
+                            elif int(columna) == int(self.columna_matriz1):
+                                
+                                if (0 < int(fila) <= int(self.columna_matriz1) and  0 < int(columna) <=int(self.fila_matriz1)):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+                                        
+                                    if int(self.columna_matriz1) < int(self.fila_matriz1):
+                                        tabla += f"\t<td>{temp1}</td>\n"
+                                        cont_temp = columna
+                                        #print(f"Llego {cont_temp}")
+                                        while cont_temp < self.fila_matriz1:
+
+                                            temp2 = self.matriz_ortogonal.encontrar_posicion(contador,cont_temp+1,fila).get_dato()
+                                            if temp2 == "-":
+                                                temp2 = " "
+                                            tabla += f"\t<td>{temp2}</td>\n"
+                                            cont_temp += 1
+                                    elif int(self.columna_matriz1) > int(self.fila_matriz1):
+                                        tabla += f"\t<td>{temp1}</td>\n"
+                                        cont_temp = fila
+                                        #print(f"Llego {cont_temp}")
+                                        while cont_temp < self.columna_matriz1:
+
+                                            temp2 = self.matriz_ortogonal.encontrar_posicion(contador,fila,cont_temp).get_dato()
+                                            if temp2 == "-":
+                                                temp2 = " "
+                                            tabla += f"\t<td>{temp2}</td>\n"
+                                            cont_temp += 1
+                                
+                                   
+                                else:
+                                   
+                                    tabla += "\t<td> </td>\n"
+
+                                tabla += "</tr>\n"
+
+                                
+
+                                #if int(fila) == int(self.columna_matriz1) or int(columna) == (self.fila_matriz1):
+                                if int(fila) == int(self.columna_matriz1):
+                                    #print(tabla)
+                                    g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
+                                    g.node('node01', f'''<
+                                    <table border="0" cellborder="1" cellspacing="0">
+                                    {str(tabla)}
+                                    </table>>''')
+                                    g.view()
+
+                                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('transpuesta.gv.png'))
+                                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                                    
+                                    self.nombre_label = Label(text="Imagen Matriz Transpuesta")
+                                    self.nombre_label.grid(row=6, column=3)
+
+
+                                    break
+                                
+                                columna = 1
+                                fila += 1
+                            
+
+                            x += 1
+                    elif self.columna_matriz1 > self.fila_matriz1:
                         
+                        while x < longitud:
 
-                        x += 1
+                            
+                            if int(columna) < int(self.fila_matriz1):
+                            
+                                if int(columna) == 1:
+                                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                            
+                                if (0 < int(fila) <= int(self.columna_matriz1)) and 0 < int(columna) <=int(self.fila_matriz1):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+        
 
-                    
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                else:
+                                    
+                                    tabla += "\t<td> </td>\n"
+                                    
+                                columna += 1
+
+                            elif int(columna) == int(self.fila_matriz1):
+                                
+                                if (0 < int(fila) <= int(self.columna_matriz1) and  0 < int(columna) <=int(self.fila_matriz1)):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,columna,fila).get_dato()
+                                    if temp1 == "-":
+                                        temp1 = " "
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                else:
+                                   
+                                    tabla += "\t<td> </td>\n"
+
+                                tabla += "</tr>\n"
+
+                        
+                                if int(fila) == int(self.columna_matriz1):
+                                    #print(tabla)
+                                    g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
+                                    g.node('node01', f'''<
+                                    <table border="0" cellborder="1" cellspacing="0">
+                                    {str(tabla)}
+                                    </table>>''')
+                                    g.view()
+
+                                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('transpuesta.gv.png'))
+                                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                                    
+                                    self.nombre_label = Label(text="Imagen Matriz Transpuesta")
+                                    self.nombre_label.grid(row=6, column=3)
+
+
+                                    break
+                                
+                                columna = 1
+                                fila += 1
+                            
+
+                            x += 1
                     
                    
                 aux2 = aux2.get_derecha()

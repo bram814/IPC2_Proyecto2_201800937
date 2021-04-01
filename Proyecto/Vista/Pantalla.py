@@ -166,11 +166,12 @@ class Pantalla():
                         columna = 1
                         self.contador_datos += 1
                         self.matriz_ortogonal_nombre.agregar(int(self.contador_datos),int(self.fila),int(self.columna),str(self.nombre))
+                        
                         for image in self.imagen:
                             if (image == "-" or image == "*"):
                                 #print(f"({self.contador_datos}.- ({fila},{columna}) Dato: {image}")
                                 self.matriz_ortogonal.agregar(int(self.contador_datos),int(fila),int(columna),str(image))
-
+                                
                                 if (int(columna) == int(self.columna)):
                                     columna = 1
                                     fila += 1

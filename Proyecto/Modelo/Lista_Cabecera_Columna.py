@@ -66,7 +66,7 @@ class Lista_Cabecera_Columna():
                     return aux
                 aux = aux.get_siguiente()
 
-        return None
+        return False
 
     def get_primero(self):
         return self.primero

@@ -40,14 +40,23 @@ class Lista_Vertical():
                 aux1 = self.get_primero()
             
                 while int(aux1.get_y()) <= int(nodo_nuevo.get_y()):
+                    if  int(aux1.get_y()) == self.get_ultimo().get_y():
+                        print("ojito")
+                        break
                     aux1 = aux1.get_abajo()
 
-                aux2 = aux1.get_arriba()
+                if  int(aux1.get_y()) == self.get_ultimo().get_y():
+                    self.get_ultimo().set_abajo(nodo_nuevo)
+                    nodo_nuevo.set_arriba(self.get_ultimo())
+                    self.set_ultimo(nodo_nuevo)
+                
+                else:
+                    aux2 = aux1.get_arriba()
 
-                aux2.set_abajo(nodo_nuevo)
-                nodo_nuevo.set_abajo(aux1)
-                aux1.set_arriba(nodo_nuevo)
-                nodo_nuevo.set_arriba(aux2)
+                    aux2.set_abajo(nodo_nuevo)
+                    nodo_nuevo.set_abajo(aux1)
+                    aux1.set_arriba(nodo_nuevo)
+                    nodo_nuevo.set_arriba(aux2)
 
         self.size_LV += 1
 

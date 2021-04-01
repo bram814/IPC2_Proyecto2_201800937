@@ -13,7 +13,7 @@ class Matriz_Ortogonal():
 
     def agregar(self,contador,x,y,dato):
 
-        if (self.get_columna().buscar(x) == None):
+        if (self.get_columna().buscar(x) == False):
             self.get_columna().agregar(x)
         
         if (self.get_fila().buscar(y) == None):
@@ -54,7 +54,6 @@ class Matriz_Ortogonal():
             longitud_lista = aux.get_fila().size_LH
             aux2 = aux.get_fila().get_primero()
             while j < longitud_lista:
-                
                 print(aux2)
                 aux2 = aux2.get_derecha()
                 j += 1 
