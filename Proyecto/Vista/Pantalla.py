@@ -8,8 +8,7 @@ from Modelo.Matriz_Ortogonal import Matriz_Ortogonal
 from Modelo.Lista_Vertical import Lista_Vertical
 
 
-from tkinter import *
-from tkinter import ttk
+from tkinter import ttk,Tk,Label,Menu,Button
 from PIL import ImageTk, Image
 from Controlador.Archivo import Archivo
 
@@ -52,7 +51,7 @@ class Pantalla():
 
         self.operacion = Menu(self.barra_menu)
         self.operacion.add_command(label="SOBRE UNA IMAGEN")
-        self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen", command=lambda:self.graphivz.rotacion_horizontal(self.combo.get()))
+        self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen", command=lambda:self.graphivz.rotacion_horizontal(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2))
         self.operacion.add_command(label="2.- Rotación Vertical de una Imagen", command=lambda:self.graphivz.rotacion_vertical(self.combo.get()))
         self.operacion.add_command(label="3.- Transpuesta de una Imagen", command=lambda:self.graphivz.transpuesta(self.combo.get()))
         self.operacion.add_command(label="4.- Limpiar Zona de una Imagen")
@@ -101,7 +100,7 @@ class Pantalla():
 
         # ------------------------------------- BOTON -----------------------------------------
 
-        self.boton_mostrar = Button(self.root_window, text="Mostrar", width=10, height=1, command=lambda:self.graphivz.generar_imagen(self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo.get(),self.combo2.get()))
+        self.boton_mostrar = Button(self.root_window, text="Mostrar", width=10, height=1, command=lambda:self.graphivz.generar_imagen(self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo.get(),self.combo2.get()))
         self.boton_mostrar.grid(row=3 , column=2)
 
         #self.boton_limpiar =  Button(self.root_window, text="Limpiar Resultado", width=15, height=1, command=lambda:self.graphivz.limpiar_resultado())
