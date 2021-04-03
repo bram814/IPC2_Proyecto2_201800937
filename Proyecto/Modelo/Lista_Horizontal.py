@@ -42,7 +42,7 @@ class Lista_Horizontal():
             
                 while int(aux1.get_x()) <= int(nodo_nuevo.get_x()):
                     if  int(aux1.get_x()) == self.get_ultimo().get_x():
-                        print("ojito")
+                        
                         break
                     aux1 = aux1.get_derecha()
                     

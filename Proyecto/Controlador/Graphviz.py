@@ -151,14 +151,15 @@ class Graphviz():
 
     # ----------------------------------------------------- PARA UNA IMAGEN -----------------------------------------------------
     def rotacion_horizontal(self,contador,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2):
-        print(f"CONTADOR_TEMP {contador_datos_temp} LLAMADO {self.contador_datos}")
+        #print(f"CONTADOR_TEMP {contador_datos_temp} LLAMADO {self.contador_datos}")
+        self.nombre_matriz = ""
         if self.contador_datos == 0:
             self.contador_datos = contador_datos_temp
         else:
             self.contador_datos += 1
             contador_datos_temp = self.contador_datos
 
-        print(f"$CONTADOR_TEMP {contador_datos_temp} LLAMADO {self.contador_datos}")
+        #print(f"$CONTADOR_TEMP {contador_datos_temp} LLAMADO {self.contador_datos}")
         tabla = ""
         tabla_temp = ""
         tabla_final = ""
@@ -422,7 +423,14 @@ class Graphviz():
         return contador_datos_temp
 
     # ---------------------------------------------------------------- ROTACION VERTICAL --------------------------------------------------------------------------
-    def rotacion_vertical(self,contador):
+    def rotacion_vertical(self,contador,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2):
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+
         tabla = ""
         tabla_temp = ""
         #tabla_final = ""
@@ -440,6 +448,7 @@ class Graphviz():
                 if (int(aux2.get_contador()) == int(contador)):
                     self.fila_matriz1 = aux2.get_x()
                     self.columna_matriz1 = aux2.get_y()
+                    self.nombre_matriz = aux2.get_dato()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
                     while x < int(aux2.get_y()):
@@ -450,7 +459,6 @@ class Graphviz():
                     columna_separacion = 0
                     if self.columna_matriz1 % 2 == 0: # par
                         columna_separacion = int(self.columna_matriz1) / 2
-                        #print(f"Columna par: {str(columna_separacion)}")
                         
                         fila = 1
                         #fila_ultimo = self.fila_matriz1
@@ -477,6 +485,17 @@ class Graphviz():
                                 tabla += f"\t<td>{temp2}</td>\n"
                                 tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
 
+                                if (temp2 == " "):
+                                    aux2 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,str(aux2))
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp2)
+                                if (temp1 == " "):
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,aux1)
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,temp1)
+
                                 columna += 1
                                 columna_ultima -= 1
                                 
@@ -491,12 +510,22 @@ class Graphviz():
 
                                 
                                 tabla += f"\t<td>{temp2}</td>\n"
-                                tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
+                                tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}"
+                                
+                                if (temp2 == " "):
+                                    aux2 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,str(aux2))
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp2)
+                                if (temp1 == " "):
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,str(aux1))
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,temp1) 
 
                                 if (int(columna) == int(columna_separacion)): 
-                                    #print("llgamos a la mitad - terminar")
                                     tabla = f"{tabla} {tabla_temp}\n</tr>"
-                                    #print(tabla)
+                                   
 
                                     if (int(fila) == int(self.fila_matriz1)):
 
@@ -514,6 +543,17 @@ class Graphviz():
                                         self.nombre_label = Label(text="Imagen Matriz Rotación Vertical")
                                         self.nombre_label.grid(row=6, column=3)
 
+                                        self.nombre_matriz = f"{self.nombre_matriz} Rotación Vertical {contador_datos_temp}"
+                                        matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(self.fila_matriz1),int(self.columna_matriz1),str(self.nombre_matriz))
+                                        temp = []
+                                        i = 0
+                                        temp.append(i)
+                                        while i < contador_datos_temp:
+                                            temp.append(i+1)
+                                            i +=1
+                                        combo["values"] = temp
+                                        combo2["values"] = temp
+
                                         break
 
                                 
@@ -528,7 +568,6 @@ class Graphviz():
                     else: # impar
 
                         columna_separacion = (int(self.columna_matriz1) / 2) + 0.5
-                        #print(f"Columna impar {columna_separacion}")
                         fila = 1
                         #fila_ultimo = self.fila_matriz1
                         columna = 1
@@ -553,7 +592,19 @@ class Graphviz():
                                     tabla += f"<tr>\n\t<td>{fila}</td>\n"
                                 
                                 tabla += f"\t<td>{temp2}</td>\n"
-                                tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
+                                tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}"
+
+                                
+                                if (temp2 == " "):
+                                    aux2 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,str(aux2))
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp2)
+                                if (temp1 == " "):
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,aux1)
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,temp1) 
 
                                 columna += 1
                                 columna_ultima -= 1
@@ -569,12 +620,15 @@ class Graphviz():
 
                                 
                                 tabla += f"\t<td>{temp1}</td>\n"
-                                #tabla_temp = f"\t<td>{temp1}</td>\n {tabla_temp}" 
+                                
+                                if (temp1 == " "):
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,aux1)
+                                else:
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna_ultima,temp1)
 
-                                if (int(columna) == int(columna_separacion)): #$ error
-                                    #print("llgamos a la mitad - terminar")
+                                if (int(columna) == int(columna_separacion)): 
                                     tabla = f"{tabla} {tabla_temp}\n</tr>"
-                                    #print(tabla)
 
                                     if (int(fila) == int(self.fila_matriz1)):
 
@@ -591,6 +645,17 @@ class Graphviz():
                                         
                                         self.nombre_label = Label(text="Imagen Matriz Rotación Vertical")
                                         self.nombre_label.grid(row=6, column=3)
+                                        
+                                        self.nombre_matriz = f"{self.nombre_matriz} Rotación Vertical {contador_datos_temp}"
+                                        matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(self.fila_matriz1),int(self.columna_matriz1),str(self.nombre_matriz))
+                                        temp = []
+                                        i = 0
+                                        temp.append(i)
+                                        while i < contador_datos_temp:
+                                            temp.append(i+1)
+                                            i +=1
+                                        combo["values"] = temp
+                                        combo2["values"] = temp
 
                                         break
 
@@ -612,9 +677,15 @@ class Graphviz():
             i += 1
     # ---------------------------------------------------------------- TRANSPUESTA --------------------------------------------------------------------------
    
-    def transpuesta(self,contador):
+    def transpuesta(self,contador,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2):
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+
         tabla = ""
-       
         #tabla_final = ""
         aux = self.matriz_ortogonal_nombre.get_fila().get_primero()
         longitud_fila = self.matriz_ortogonal_nombre.get_fila().size_LCF
@@ -630,13 +701,13 @@ class Graphviz():
                 if (int(aux2.get_contador()) == int(contador)):
                     self.fila_matriz1 = aux2.get_x()
                     self.columna_matriz1 = aux2.get_y()
+                    self.nombre_matriz = aux2.get_dato()
                     tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
                     x = 0
                     while x < int(aux2.get_x()):
                         tabla += f'\t<td>{x+1}</td>\n'
                         x += 1
                     tabla += "</tr>\n"
-                    #print(tabla)
                     longitud = int(self.fila_matriz1) * int(self.columna_matriz1)
                     x = 0
                     columna = 1
@@ -659,9 +730,21 @@ class Graphviz():
         
 
                                     tabla += f"\t<td>{temp1}</td>\n"
+
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                 else:
                                     
                                     tabla += "\t<td> </td>\n"
+                                   
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                     
                                 columna += 1
 
@@ -672,11 +755,22 @@ class Graphviz():
                                     if temp1 == "-":
                                         temp1 = " "
                                     tabla += f"\t<td>{temp1}</td>\n</tr>"
+                                    
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                 else:
+                                    
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                     tabla += "\t<td> </td>\n</tr>"
 
                                 if int(fila) == int(self.columna_matriz1):
-                                    #print(tabla)
                                     g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
                                     g.node('node01', f'''<
                                     <table border="0" cellborder="1" cellspacing="0">
@@ -690,6 +784,17 @@ class Graphviz():
                                     
                                     self.nombre_label = Label(text="Imagen Matriz Transpuesta")
                                     self.nombre_label.grid(row=6, column=3)
+
+                                    self.nombre_matriz = f"{self.nombre_matriz} Transpuesta {contador_datos_temp}"
+                                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(self.fila_matriz1),int(self.columna_matriz1),str(self.nombre_matriz))
+                                    temp = []
+                                    i = 0
+                                    temp.append(i)
+                                    while i < contador_datos_temp:
+                                        temp.append(i+1)
+                                        i +=1
+                                    combo["values"] = temp
+                                    combo2["values"] = temp
 
 
                                     break
@@ -715,9 +820,18 @@ class Graphviz():
         
 
                                     tabla += f"\t<td>{temp1}</td>\n"
+
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1)
+
                                 else:
                                     
                                     tabla += "\t<td> </td>\n"
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1) 
                                     
                                 columna += 1
 
@@ -730,31 +844,37 @@ class Graphviz():
                                         
                                     if int(self.columna_matriz1) < int(self.fila_matriz1):
                                         tabla += f"\t<td>{temp1}</td>\n"
+                                        
+                                        if (temp1 == " "):
+                                            aux1 = "-"
+                                            matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                        else:
+                                            matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
+
                                         cont_temp = columna
-                                        #print(f"Llego {cont_temp}")
+
                                         while cont_temp < self.fila_matriz1:
 
                                             temp2 = self.matriz_ortogonal.encontrar_posicion(contador,cont_temp+1,fila).get_dato()
+                                            
                                             if temp2 == "-":
                                                 temp2 = " "
                                             tabla += f"\t<td>{temp2}</td>\n"
-                                            cont_temp += 1
-                                    elif int(self.columna_matriz1) > int(self.fila_matriz1):
-                                        tabla += f"\t<td>{temp1}</td>\n"
-                                        cont_temp = fila
-                                        #print(f"Llego {cont_temp}")
-                                        while cont_temp < self.columna_matriz1:
 
-                                            temp2 = self.matriz_ortogonal.encontrar_posicion(contador,fila,cont_temp).get_dato()
-                                            if temp2 == "-":
-                                                temp2 = " "
-                                            tabla += f"\t<td>{temp2}</td>\n"
+                                            if (temp2 == " "):
+                                                aux2 = "-"
+                                                matriz_ortogonal_temp.agregar(contador_datos_temp,fila,cont_temp+1,aux2)
+                                            else:
+                                                matriz_ortogonal_temp.agregar(contador_datos_temp,fila,cont_temp+1,temp2) 
+
                                             cont_temp += 1
                                 
                                    
                                 else:
                                    
                                     tabla += "\t<td> </td>\n"
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
 
                                 tabla += "</tr>\n"
 
@@ -762,7 +882,6 @@ class Graphviz():
 
                                 #if int(fila) == int(self.columna_matriz1) or int(columna) == (self.fila_matriz1):
                                 if int(fila) == int(self.columna_matriz1):
-                                    #print(tabla)
                                     g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
                                     g.node('node01', f'''<
                                     <table border="0" cellborder="1" cellspacing="0">
@@ -776,6 +895,16 @@ class Graphviz():
                                     
                                     self.nombre_label = Label(text="Imagen Matriz Transpuesta")
                                     self.nombre_label.grid(row=6, column=3)
+                                    self.nombre_matriz = f"{self.nombre_matriz} Transpuesta {contador_datos_temp}"
+                                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(self.columna_matriz1),int(self.fila_matriz1),str(self.nombre_matriz))
+                                    temp = []
+                                    i = 0
+                                    temp.append(i)
+                                    while i < contador_datos_temp:
+                                        temp.append(i+1)
+                                        i +=1
+                                    combo["values"] = temp
+                                    combo2["values"] = temp
 
 
                                     break
@@ -786,6 +915,7 @@ class Graphviz():
 
                             x += 1
                     elif self.columna_matriz1 > self.fila_matriz1:
+                        
                         
                         while x < longitud:
 
@@ -802,9 +932,17 @@ class Graphviz():
         
 
                                     tabla += f"\t<td>{temp1}</td>\n"
+                                
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                 else:
                                     
                                     tabla += "\t<td> </td>\n"
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1) 
                                     
                                 columna += 1
 
@@ -815,15 +953,22 @@ class Graphviz():
                                     if temp1 == "-":
                                         temp1 = " "
                                     tabla += f"\t<td>{temp1}</td>\n"
+
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
                                 else:
                                    
                                     tabla += "\t<td> </td>\n"
+                                    aux1 = "-"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1) 
 
                                 tabla += "</tr>\n"
 
                         
                                 if int(fila) == int(self.columna_matriz1):
-                                    #print(tabla)
                                     g = Digraph('g', format='png',filename='transpuesta.gv',node_attr={'shape': 'plaintext'})
                                     g.node('node01', f'''<
                                     <table border="0" cellborder="1" cellspacing="0">
@@ -837,6 +982,16 @@ class Graphviz():
                                     
                                     self.nombre_label = Label(text="Imagen Matriz Transpuesta")
                                     self.nombre_label.grid(row=6, column=3)
+                                    self.nombre_matriz = f"{self.nombre_matriz} Transpuesta {contador_datos_temp}"
+                                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(self.columna_matriz1),int(self.fila_matriz1),str(self.nombre_matriz))
+                                    temp = []
+                                    i = 0
+                                    temp.append(i)
+                                    while i < contador_datos_temp:
+                                        temp.append(i+1)
+                                        i +=1
+                                    combo["values"] = temp
+                                    combo2["values"] = temp
 
 
                                     break

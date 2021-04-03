@@ -41,7 +41,7 @@ class Lista_Vertical():
             
                 while int(aux1.get_y()) <= int(nodo_nuevo.get_y()):
                     if  int(aux1.get_y()) == self.get_ultimo().get_y():
-                        print("ojito")
+                        
                         break
                     aux1 = aux1.get_abajo()
 
