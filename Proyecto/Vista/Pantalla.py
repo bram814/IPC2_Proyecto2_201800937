@@ -8,7 +8,7 @@ from Modelo.Matriz_Ortogonal import Matriz_Ortogonal
 from Modelo.Lista_Vertical import Lista_Vertical
 
 
-from tkinter import ttk,Tk,Label,Menu,Button
+from tkinter import ttk, Tk, Label, Menu, Button, Entry, StringVar, Scrollbar, Frame
 from PIL import ImageTk, Image
 from Controlador.Archivo import Archivo
 
@@ -36,11 +36,12 @@ class Pantalla():
         self.root_window = Tk()
         self.root_window.geometry("1350x670+0+0")
         self.root_window.title("Ventana Principal")
+        
 
         # ------------------------------------ BARRA MENU ------------------------------------ 
 
         self.barra_menu = Menu(self.root_window)
-
+        
         # ------------------------------------ CARGAR ARCHIVO ------------------------------------ 
         self.open_file = Menu(self.barra_menu)
         self.open_file.add_command(label="Abrir", command=lambda:self.open_File())
@@ -54,9 +55,9 @@ class Pantalla():
         self.operacion.add_command(label="1.- Rotación Horizontal de una Imagen", command=lambda:self.graphivz.rotacion_horizontal(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2))
         self.operacion.add_command(label="2.- Rotación Vertical de una Imagen", command=lambda:self.graphivz.rotacion_vertical(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2))
         self.operacion.add_command(label="3.- Transpuesta de una Imagen", command=lambda:self.graphivz.transpuesta(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2))
-        self.operacion.add_command(label="4.- Limpiar Zona de una Imagen")
-        self.operacion.add_command(label="5.- Agregar Línea Horizontal a una Imagen")
-        self.operacion.add_command(label="6.- Agregar Línea Vertical a una Imagen")
+        self.operacion.add_command(label="4.- Limpiar Zona de una Imagen -> filaO,columnaO;filaF,columnaF", command=lambda:self.graphivz.limpiar_zona(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
+        self.operacion.add_command(label="5.- Agregar Línea Horizontal a una Imagen -> filaO,columnaO;cantidad", command=lambda:self.graphivz.agregar_linea_horizontal(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
+        self.operacion.add_command(label="6.- Agregar Línea Vertical a una Imagen -> filaO,columnaO;cantidad", command=lambda:self.graphivz.agregar_linea_vertical(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
         self.operacion.add_command(label="7.- Agregar Rectángulo")
         self.operacion.add_command(label="8.- Agregar Triángulo Rectángulo")
         self.operacion.add_separator()
@@ -97,6 +98,15 @@ class Pantalla():
         self.combo2 = ttk.Combobox(self.root_window,value=self.cargar_archivo.ejemplo,width=10)
         self.combo2.grid(row=3,column=1)
 
+        # ---------------------------------- Metodos Agregar -------------------------------
+        self.label_limpiar = Label(self.root_window,text="Operaciones Sobre Una Imagen [4-8]")
+        self.label_limpiar.grid(row=2,column=3)
+        self.label_limpiar.config(padx=10,pady=10)
+
+        self.string_limpiar_zona = StringVar()
+        self.limpiar_zona = Entry(self.root_window,width=12,textvariable=self.string_limpiar_zona)
+        self.limpiar_zona.grid(row=3,column=3)
+        
 
         # ------------------------------------- BOTON -----------------------------------------
 
