@@ -1977,16 +1977,879 @@ class Graphviz():
             aux = aux.get_siguiente()
             i += 1
 
-    def agregar_triangulo_rectangulo(self,contador):
-        pass
+    
+    # ----------------------------------------------------- AGREGAR TRIANGULO RECTANGULO PARA UNA IMAGEN -----------------------------------------------------
+    def agregar_triangulo_rectangulo(self,contador,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2,texto):
+       
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+        aceptacion = False
+
+        tabla = ""
+        #tabla_final = ""
+        aux = self.matriz_ortogonal_nombre.get_fila().get_primero()
+        longitud_fila = self.matriz_ortogonal_nombre.get_fila().size_LCF
+        i = 0
+
+        while i < longitud_fila:
+            
+            j = 0
+            longitud_lista = aux.get_fila().size_LH
+            aux2 = aux.get_fila().get_primero()
+            while j < longitud_lista:
+                
+                if (int(aux2.get_contador()) == int(contador)):
+                    self.fila_matriz1 = aux2.get_x()
+                    self.columna_matriz1 = aux2.get_y()
+                    self.nombre_matriz = aux2.get_dato()
+                    
+            
+                    print(aceptacion)
+                    if aceptacion == False:
+                        total = 1
+                        for text_temp in texto:
+                            print(text_temp)
+                            total += 1
+                        print(f"TOTAL {total}")
+
+                        estado = 1
+                        fila_inicial = 0
+                        columna_inicial = 0
+                        fila_final = 0
+                        columna_final = 0
+                        concatenar_fila = ""
+                        total_temp = 1
+
+                        cont_fila = 0
+                        cont_columna = 0
+
+                        for text in texto:
+                            total_temp += 1
+                            print(text)
+                            print(f'estado: {estado}')
+                            if (estado==1): # Guarda fila_inicial
+                                if (0 < int(text)):
+                                    concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                    estado += 1
+                                else:
+                                    estado = 9
+
+                            elif (estado==2): # Comprueba si es una coma [,]
+                                if (text == ","):
+                                    fila_inicial = int(concatenar_fila)
+                                    concatenar_fila = ""
+                                    estado += 1
+                                else:
+                                    if (0 <= int(text)):
+                                        concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                        estado = 2
+                                    else:
+                                        estado = 9
+
+                            elif (estado==3): # Guarda columna_inicial
+                                if (0 < int(text)):
+                                    concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                    estado += 1
+                                else:
+                                    estado = 9
+
+                            elif (estado==4): # Comprueba si es un punto coma [;]
+                                
+                                if (text == ";"):
+                                    columna_inicial = int(concatenar_fila)
+                                    
+                                    concatenar_fila = ""
+                                    estado += 1
+                                
+                                else:
+                                    if (0 <= int(text)):
+                                        concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                        estado = 4
+                                    else:
+                                        estado = 9
+
+                            elif (estado==5): # Guarda fila_final
+                                if (0 < int(text)):
+                                    concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                    estado += 1
+                                else:
+                                    estado = 9
+
+                            elif (estado==6): # Comprueba si es una coma [,]
+                                if (text == ","):
+                                    fila_final = int(concatenar_fila)
+                                    concatenar_fila = ""
+                                    estado += 1
+                                else:
+                                    if (0 <= int(text)):
+                                        concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                        estado = 6
+                                    else:
+                                        estado = 9
+                            elif (estado==7): # Guarda columna_final
+                                if (0 <= int(text)):
+                                    concatenar_fila = f"{str(concatenar_fila)}{str(text)}"
+                                    
+                                    if (int(total_temp) == int(total)):
+                                        columna_final = int(concatenar_fila)
+                                        cont_fila = int(fila_inicial) + int(fila_final) - 1
+                                        if (int(cont_fila) <= 0):
+                                            cont_fila = fila_inicial
+                                        if (int(cont_columna) <= 0):
+                                            cont_columna = columna_inicial
+                                        cont_columna = int(columna_inicial) + int(columna_final) - 1 
+                                        aceptacion = True
+                                        break
+                                            
+                                    else:
+                                        estado = 7
+                                else:
+                                    estado = 9
+                                    aceptacion = False
+                                    break
+                            else:
+                                aceptacion = False
+                                break
+                            
+
+                    if (aceptacion == False):
+                        messagebox.showinfo(message="Estructura Incorrecta -> filaInicial,columnaInicial;filaFinal,columnaFinal filaFinal<columnaFinal - filaFinal>columnaFinal ")
+
+                    else:
+                        
+                        tabla += f'<tr>\n\t<td>{aux2.get_dato()}</td>\n'
+                        x = 0
+                        while x < int(aux2.get_y()):
+                            tabla += f'\t<td>{x+1}</td>\n'
+                            x += 1
+                        if (int(cont_columna) > int(self.columna_matriz1)): # agregando mas espacio en columna
+                            i = 0
+                            cont_temp_cantidad = int(cont_columna) - int(self.columna_matriz1)
+                            while i < cont_temp_cantidad:
+                                tabla += f'\t<td>{x+1}</td>\n'
+                                x += 1
+                                i += 1
+                        tabla += "</tr>\n"
+
+                        
+                        x = 0
+                        columna = 1
+                        fila = 1
+                        max_fila = 0
+                        max_columna =0
+                        if (int(cont_fila) > int(self.fila_matriz1)):
+                            max_fila = cont_fila
+                        elif (int(self.fila_matriz1) >= int(fila_final)):
+                            max_fila = self.fila_matriz1
+                        
+                        if (int(cont_columna) > int(self.columna_matriz1)):
+                            max_columna = cont_columna
+                        elif (int(self.columna_matriz1) >= int(cont_columna)):
+                            max_columna = self.columna_matriz1
+
+                        longitud = int(max_fila) * int(max_columna)
+                        while x < longitud:
+                                
+                            if int(columna) < int(max_columna):
+                                
+                                if int(columna) == 1:
+                                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+                                
+                                if (int(self.fila_matriz1) < int(fila) or int(self.columna_matriz1) < int(columna)):
+                                    temp1 = " "
+                                elif (int(fila) <= int(self.fila_matriz1) and int(columna) <= int(self.columna_matriz1)):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,fila,columna).get_dato()
+                                    if (temp1 == "-"):
+                                        temp1 = " "
+
+                                if (int(columna_inicial) <= int(columna) <= int(cont_columna) and int(fila_inicial) <= int(fila) <= int(cont_fila)):
+                                    print(f"{fila}{columna} ----------- {fila_inicial}<{fila}<{fila_final}")
+                                    tabla += f"\t<td>*</td>\n"
+                                    aux1 = "*"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                else:
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
+
+                                columna += 1
+
+                            elif int(columna) == int(max_columna):
+                                 
+                                if (int(self.fila_matriz1) < int(fila) or int(self.columna_matriz1) < int(columna)):
+                                    temp1 = " "
+                                elif (int(fila) <= int(self.fila_matriz1) and int(columna) <= int(self.columna_matriz1)):
+                                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador,fila,columna).get_dato()
+                                    if (temp1 == "-"):
+                                        temp1 = " "
+
+                                if (int(columna_inicial) <= int(columna) <= int(cont_columna) and int(fila_inicial) <= int(fila) <= int(cont_fila)):
+                                    print(f"{fila}{columna} ----------- {fila_inicial}<{fila}<{fila_final}")
+                                    tabla += f"\t<td>*</td>\n"
+                                    aux1 = "*"
+                                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                else:
+                                    tabla += f"\t<td>{temp1}</td>\n"
+                                    if (temp1 == " "):
+                                        aux1 = "-"
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                                    else:
+                                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,temp1) 
+
+                                tabla += "</tr>\n"
+                                if int(fila) == int(max_fila):
+                                    
+                                    g = Digraph('g', format='png',filename='triangulo_rectangulo.gv',node_attr={'shape': 'plaintext'})
+                                    g.node('node01', f'''<
+                                    <table border="0" cellborder="1" cellspacing="0">
+                                    {str(tabla)}
+                                    </table>>''')
+                                    g.view()
+
+                                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('triangulo_rectangulo.gv.png'))
+                                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                                    
+                                    self.nombre_label = Label(text=f"Triangulo Rectangulo {fila_inicial},{columna_inicial};{fila_final}x{columna_final}")
+                                    self.nombre_label.grid(row=6, column=3)
+                                        
+                                    self.nombre_matriz = f"{self.nombre_matriz} Triangulo Rectangulo {contador_datos_temp}"
+                                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(max_fila),int(max_columna),str(self.nombre_matriz))
+                                    temp = []
+                                    i = 0
+                                    temp.append(i)
+                                    while i < contador_datos_temp:
+                                        temp.append(i+1)
+                                        i +=1
+                                    combo["values"] = temp
+                                    combo2["values"] = temp
+                                    
+                                    break
+                                columna = 1
+                                fila += 1
+                                
+
+                            x += 1
+                    
+                   
+                aux2 = aux2.get_derecha()
+                j += 1 
+
+            aux = aux.get_siguiente()
+            i += 1
     # ----------------------------------------------------- PARA DOS IMAGENES -----------------------------------------------------
-    def union(self,contador1,contador2):
-        pass
-    def interseccion(self,contador1,contador2):
-        pass
-    def diferencia(self,contador1,contador2):
-        pass
-    def diferencia_simetra(self,contador1,contador2):
-        pass
+    def union(self,contador1,contador2,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2,texto):
+        
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+        tabla = ""
+
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador1)).__str__())
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador2)).__str__())
+
+        aux1 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador1))
+        aux2 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador2))
+        contador_uno = aux1.get_contador()
+        contador_dos = aux2.get_contador()
+
+        fila_uno = int(aux1.get_x())
+        fila_dos = int(aux2.get_x())
+        max_fila = 1
+        columna_uno = int(aux1.get_y())
+        columna_dos = int(aux2.get_y())
+        max_columna = 1
+
+
+        if (int(aux1.get_x()) > int(aux2.get_x())):
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux1.get_contador()} {aux1.get_x()}>{aux2.get_x()} --- > {aux1.get_x()}')
+            max_fila = int(aux1.get_x())
+        else:
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux2.get_contador()} {aux1.get_x()}<{aux2.get_x()} --- > {aux2.get_x()}')
+            max_fila = int(aux2.get_x())
+        
+        if (int(aux1.get_y()) > int(aux2.get_y())):
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux1.get_contador()} {aux1.get_y()}>{aux2.get_y()}')
+            max_columna = int(aux1.get_y())
+        else:
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux2.get_contador()} {aux1.get_y()}<{aux2.get_y()}')
+            max_columna = int(aux2.get_y())
+
+        self.nombre_matriz = f"Union {contador1},{contador2}"
+
+        tabla += f"<tr>\n\t<td>{self.nombre_matriz}</td>\n"
+        x = 0 
+        while x < max_columna:
+            tabla += f"\t<td>{x+1}</td>\n"
+            x += 1
+        tabla += f"</tr>\n"
+        longitud = int(max_fila)*int(max_columna)
+        i = 0
+        columna = 1
+        fila = 1
+        while i < longitud:
+
+            if int(columna) < int(max_columna):
+
+                if int(columna) == 1:
+                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" or temp2 == "*":
+                    tabla += f"\t<td>*</td>\n"
+                    aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td> </td>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                columna += 1
+            elif int(columna) == int(columna):
+                
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" or temp2 == "*":
+                    tabla += f"\t<td>*</td>\n</tr>\n"
+                    aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td> </td>\n</tr>"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+                if int(fila) == int(max_fila):
+                    #print(tabla)
+                    g = Digraph('g', format='png',filename='union.gv',node_attr={'shape': 'plaintext'})
+                    g.node('node01', f'''<
+                    <table border="0" cellborder="1" cellspacing="0">
+                    {str(tabla)}
+                    </table>>''')
+                    g.view()
+
+                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('union.gv.png'))
+                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                    
+                    self.nombre_label = Label(text=f"Union")
+                    self.nombre_label.grid(row=6, column=3)
+                                        
+                    self.nombre_matriz = f"{self.nombre_matriz} - {contador_datos_temp}"
+                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(max_fila),int(max_columna),str(self.nombre_matriz))
+                    temp = []
+                    i = 0
+                    temp.append(i)
+                    while i < contador_datos_temp:
+                        temp.append(i+1)
+                        i +=1
+                    combo["values"] = temp
+                    combo2["values"] = temp
+                                    
+                    break
+
+                fila += 1
+                columna = 1
+
+            i += 1
+
+
+    # ----------------------------------------------------- INTERSECCION PARA DOS IMAGENES -----------------------------------------------------
+
+    def interseccion(self,contador1,contador2,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2,texto):
+      
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+        tabla = ""
+
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador1)).__str__())
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador2)).__str__())
+
+        aux1 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador1))
+        aux2 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador2))
+        contador_uno = aux1.get_contador()
+        contador_dos = aux2.get_contador()
+
+        fila_uno = int(aux1.get_x())
+        fila_dos = int(aux2.get_x())
+        max_fila = 1
+        columna_uno = int(aux1.get_y())
+        columna_dos = int(aux2.get_y())
+        max_columna = 1
+
+
+        if (int(aux1.get_x()) > int(aux2.get_x())):
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux1.get_contador()} {aux1.get_x()}>{aux2.get_x()} --- > {aux1.get_x()}')
+            max_fila = int(aux1.get_x())
+        else:
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux2.get_contador()} {aux1.get_x()}<{aux2.get_x()} --- > {aux2.get_x()}')
+            max_fila = int(aux2.get_x())
+        
+        if (int(aux1.get_y()) > int(aux2.get_y())):
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux1.get_contador()} {aux1.get_y()}>{aux2.get_y()}')
+            max_columna = int(aux1.get_y())
+        else:
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux2.get_contador()} {aux1.get_y()}<{aux2.get_y()}')
+            max_columna = int(aux2.get_y())
+
+        self.nombre_matriz = f"Intersección {contador1},{contador2}"
+
+        tabla += f"<tr>\n\t<td>{self.nombre_matriz}</td>\n"
+        x = 0 
+        while x < max_columna:
+            tabla += f"\t<td>{x+1}</td>\n"
+            x += 1
+        tabla += f"</tr>\n"
+        longitud = int(max_fila)*int(max_columna)
+        i = 0
+        columna = 1
+        fila = 1
+        while i < longitud:
+
+            if int(columna) < int(max_columna):
+
+                if int(columna) == 1:
+                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td>*</td>\n"
+                    aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td> </td>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                columna += 1
+            elif int(columna) == int(columna):
+                
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td>*</td>\n</tr>\n"
+                    aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td> </td>\n</tr>"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+                if int(fila) == int(max_fila):
+                    #print(tabla)
+                    g = Digraph('g', format='png',filename='interseccion.gv',node_attr={'shape': 'plaintext'})
+                    g.node('node01', f'''<
+                    <table border="0" cellborder="1" cellspacing="0">
+                    {str(tabla)}
+                    </table>>''')
+                    g.view()
+
+                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('interseccion.gv.png'))
+                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                    
+                    self.nombre_label = Label(text=f"Interseccion")
+                    self.nombre_label.grid(row=6, column=3)
+                                        
+                    self.nombre_matriz = f"{self.nombre_matriz} - {contador_datos_temp}"
+                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(max_fila),int(max_columna),str(self.nombre_matriz))
+                    temp = []
+                    i = 0
+                    temp.append(i)
+                    while i < contador_datos_temp:
+                        temp.append(i+1)
+                        i +=1
+                    combo["values"] = temp
+                    combo2["values"] = temp
+                                    
+                    break
+
+                fila += 1
+                columna = 1
+
+            i += 1
+
+
+
+    # ----------------------------------------------------- DIFERENCIA PARA DOS IMAGENES -----------------------------------------------------
+    
+    def diferencia(self,contador1,contador2,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2,texto):
+      
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+        tabla = ""
+
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador1)).__str__())
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador2)).__str__())
+
+        aux1 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador1))
+        aux2 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador2))
+        contador_uno = aux1.get_contador()
+        contador_dos = aux2.get_contador()
+
+        fila_uno = int(aux1.get_x())
+        fila_dos = int(aux2.get_x())
+        max_fila = 1
+        columna_uno = int(aux1.get_y())
+        columna_dos = int(aux2.get_y())
+        max_columna = 1
+
+
+        if (int(aux1.get_x()) > int(aux2.get_x())):
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux1.get_contador()} {aux1.get_x()}>{aux2.get_x()} --- > {aux1.get_x()}')
+            max_fila = int(aux1.get_x())
+        else:
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux2.get_contador()} {aux1.get_x()}<{aux2.get_x()} --- > {aux2.get_x()}')
+            max_fila = int(aux2.get_x())
+        
+        if (int(aux1.get_y()) > int(aux2.get_y())):
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux1.get_contador()} {aux1.get_y()}>{aux2.get_y()}')
+            max_columna = int(aux1.get_y())
+        else:
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux2.get_contador()} {aux1.get_y()}<{aux2.get_y()}')
+            max_columna = int(aux2.get_y())
+
+        self.nombre_matriz = f"Intersección {contador1},{contador2}"
+
+        tabla += f"<tr>\n\t<td>{self.nombre_matriz}</td>\n"
+        x = 0 
+        while x < max_columna:
+            tabla += f"\t<td>{x+1}</td>\n"
+            x += 1
+        tabla += f"</tr>\n"
+        longitud = int(max_fila)*int(max_columna)
+        i = 0
+        columna = 1
+        fila = 1
+        while i < longitud:
+
+            if int(columna) < int(max_columna):
+
+                if int(columna) == 1:
+                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td> </td>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td>{temp1}</td>\n"
+                    if temp1 == " ":
+                        aux1 = "-"
+                    else:
+                        aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                columna += 1
+            elif int(columna) == int(columna):
+                
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td> </td>\n</tr>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    tabla += f"\t<td>{temp1}</td>\n</tr>\n"
+                    if temp1 == " ":
+                        aux1 = "-"
+                    else:
+                        aux1 = "*"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                if int(fila) == int(max_fila):
+                    #print(tabla)
+                    g = Digraph('g', format='png',filename='interseccion.gv',node_attr={'shape': 'plaintext'})
+                    g.node('node01', f'''<
+                    <table border="0" cellborder="1" cellspacing="0">
+                    {str(tabla)}
+                    </table>>''')
+                    g.view()
+
+                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('interseccion.gv.png'))
+                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                    
+                    self.nombre_label = Label(text=f"Interseccion")
+                    self.nombre_label.grid(row=6, column=3)
+                                        
+                    self.nombre_matriz = f"{self.nombre_matriz} - {contador_datos_temp}"
+                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(max_fila),int(max_columna),str(self.nombre_matriz))
+                    temp = []
+                    i = 0
+                    temp.append(i)
+                    while i < contador_datos_temp:
+                        temp.append(i+1)
+                        i +=1
+                    combo["values"] = temp
+                    combo2["values"] = temp
+                                    
+                    break
+
+                fila += 1
+                columna = 1
+
+            i += 1
+
+
+    # ----------------------------------------------------- DIFERENCIA SIMETRICA PARA DOS IMAGENES -----------------------------------------------------
+    def diferencia_simetra(self,contador1,contador2,contador_datos_temp,matriz_ortogonal_temp,matriz_ortogonal_nombre_temp,combo,combo2,texto):
+      
+        self.nombre_matriz = ""
+        if self.contador_datos == 0:
+            self.contador_datos = contador_datos_temp
+        else:
+            self.contador_datos += 1
+            contador_datos_temp = self.contador_datos
+        tabla = ""
+
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador1)).__str__())
+        print(self.matriz_ortogonal_nombre.encontrar_contador(int(contador2)).__str__())
+
+        aux1 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador1))
+        aux2 = self.matriz_ortogonal_nombre.encontrar_contador(int(contador2))
+        contador_uno = aux1.get_contador()
+        contador_dos = aux2.get_contador()
+
+        fila_uno = int(aux1.get_x())
+        fila_dos = int(aux2.get_x())
+        max_fila = 1
+        columna_uno = int(aux1.get_y())
+        columna_dos = int(aux2.get_y())
+        max_columna = 1
+
+
+        if (int(aux1.get_x()) > int(aux2.get_x())):
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux1.get_contador()} {aux1.get_x()}>{aux2.get_x()} --- > {aux1.get_x()}')
+            max_fila = int(aux1.get_x())
+        else:
+            print(f'ES MAYOR LA FILA DEL CONTADOR {aux2.get_contador()} {aux1.get_x()}<{aux2.get_x()} --- > {aux2.get_x()}')
+            max_fila = int(aux2.get_x())
+        
+        if (int(aux1.get_y()) > int(aux2.get_y())):
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux1.get_contador()} {aux1.get_y()}>{aux2.get_y()}')
+            max_columna = int(aux1.get_y())
+        else:
+            print(f'ES MAYOR LA COLUMNA DEL CONTADOR {aux2.get_contador()} {aux1.get_y()}<{aux2.get_y()}')
+            max_columna = int(aux2.get_y())
+
+        self.nombre_matriz = f"Dif Simetrica {contador1},{contador2}"
+
+        tabla += f"<tr>\n\t<td>{self.nombre_matriz}</td>\n"
+        x = 0 
+        while x < max_columna:
+            tabla += f"\t<td>{x+1}</td>\n"
+            x += 1
+        tabla += f"</tr>\n"
+        longitud = int(max_fila)*int(max_columna)
+        i = 0
+        columna = 1
+        fila = 1
+        while i < longitud:
+
+            if int(columna) < int(max_columna):
+
+                if int(columna) == 1:
+                    tabla += f"<tr>\n\t<td>{fila}</td>\n"
+
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td> </td>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    if temp1 == "*" or temp2 == "*":
+                        tabla += f"\t<td>*</td>\n"
+                        aux1 = "*"
+                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                    else:
+                        tabla += f"\t<td> </td>\n"
+                        aux1 = "-"
+                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                columna += 1
+            elif int(columna) == int(columna):
+                
+                if int(fila) <= int(fila_uno) and int(columna) <= int(columna_uno):
+                    temp1 = self.matriz_ortogonal.encontrar_posicion(contador_uno,fila,columna).get_dato()
+                    if (temp1 == "-"):
+                        temp1 = " "
+                else:
+                    temp1 = " "
+                
+                if int(fila) <= int(fila_dos) and int(columna) <= int(columna_dos):
+                    temp2 = self.matriz_ortogonal.encontrar_posicion(contador_dos,fila,columna).get_dato()
+                    if (temp2 == "-"):
+                        temp2 = " "
+                else:
+                    temp2 = " "
+                
+
+                if temp1 == "*" and temp2 == "*":
+                    tabla += f"\t<td> </td>\n</tr>\n"
+                    aux1 = "-"
+                    matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                else:
+                    if temp1 == "*" or temp2 == "*":
+                        tabla += f"\t<td>*</td>\n</tr>\n"
+                        aux1 = "*"
+                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+                    else:
+                        tabla += f"\t<td> </td>\n</tr>\n"
+                        aux1 = "-"
+                        matriz_ortogonal_temp.agregar(contador_datos_temp,fila,columna,aux1)
+
+
+                if int(fila) == int(max_fila):
+                    #print(tabla)
+                    g = Digraph('g', format='png',filename='interseccion.gv',node_attr={'shape': 'plaintext'})
+                    g.node('node01', f'''<
+                    <table border="0" cellborder="1" cellspacing="0">
+                    {str(tabla)}
+                    </table>>''')
+                    g.view()
+
+                    self.imagen_rotacion_horizontal = ImageTk.PhotoImage(Image.open('interseccion.gv.png'))
+                    self.label_imagen_rotacion_horizontal = Label(image=self.imagen_rotacion_horizontal)
+                    self.label_imagen_rotacion_horizontal.grid(row=5, column=3)
+                    
+                    self.nombre_label = Label(text=f"Interseccion")
+                    self.nombre_label.grid(row=6, column=3)
+                                        
+                    self.nombre_matriz = f"{self.nombre_matriz} - {contador_datos_temp}"
+                    matriz_ortogonal_nombre_temp.agregar(int(contador_datos_temp),int(max_fila),int(max_columna),str(self.nombre_matriz))
+                    temp = []
+                    i = 0
+                    temp.append(i)
+                    while i < contador_datos_temp:
+                        temp.append(i+1)
+                        i +=1
+                    combo["values"] = temp
+                    combo2["values"] = temp
+                                    
+                    break
+
+                fila += 1
+                columna = 1
+
+            i += 1
 
   

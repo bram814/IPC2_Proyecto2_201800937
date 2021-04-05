@@ -42,6 +42,25 @@ class Matriz_Ortogonal():
 
             aux = aux.get_siguiente()
             i += 1
+    
+    def encontrar_contador(self,contador):
+        aux = self.get_fila().get_primero()
+        longitud_fila = self.get_fila().size_LCF
+        i = 0
+
+        while i < longitud_fila:
+            
+            j = 0
+            longitud_lista = aux.get_fila().size_LH
+            aux2 = aux.get_fila().get_primero()
+            while j < longitud_lista:
+                if (int(aux2.get_contador()) == int(contador)):
+                    return aux2
+                aux2 = aux2.get_derecha()
+                j += 1 
+
+            aux = aux.get_siguiente()
+            i += 1
 
     def mostrar_matriz(self):
         aux = self.get_fila().get_primero()
