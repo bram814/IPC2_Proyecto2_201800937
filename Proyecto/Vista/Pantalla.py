@@ -58,7 +58,7 @@ class Pantalla():
         self.operacion.add_command(label="4.- Limpiar Zona de una Imagen -> filaO,columnaO;filaF,columnaF", command=lambda:self.graphivz.limpiar_zona(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
         self.operacion.add_command(label="5.- Agregar Línea Horizontal a una Imagen -> filaO,columnaO;cantidad", command=lambda:self.graphivz.agregar_linea_horizontal(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
         self.operacion.add_command(label="6.- Agregar Línea Vertical a una Imagen -> filaO,columnaO;cantidad", command=lambda:self.graphivz.agregar_linea_vertical(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
-        self.operacion.add_command(label="7.- Agregar Rectángulo")
+        self.operacion.add_command(label="7.- Agregar Rectángulo -> filaO,columnaO;filaF,columnaF", command=lambda:self.graphivz.agregar_rectaungulo(self.combo.get(),self.contador_datos,self.matriz_ortogonal,self.matriz_ortogonal_nombre,self.combo,self.combo2,self.string_limpiar_zona.get()))
         self.operacion.add_command(label="8.- Agregar Triángulo Rectángulo")
         self.operacion.add_separator()
         self.operacion.add_command(label="SOBRE DOS IMAGENES")
