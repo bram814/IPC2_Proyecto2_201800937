@@ -12,6 +12,8 @@ from tkinter import ttk, Tk, Label, Menu, Button, Entry, StringVar, Scrollbar, F
 from PIL import ImageTk, Image
 from Controlador.Archivo import Archivo
 
+import webbrowser as wb
+
 
 class Pantalla():
 
@@ -79,7 +81,9 @@ class Pantalla():
         # ------------------------------------ AYUDA ------------------------------------ 
         
         self.ayuda = Menu(self.barra_menu)
-        self.ayuda.add_command(label="Abrir")
+        self.ayuda.add_command(label="Abrir", command=lambda:self.mostar_pdf())
+        self.ayuda.add_separator()
+        self.ayuda.add_command(label="Jose Abraham Solorzano Herrera - 201800937")
 
         self.barra_menu.add_cascade(label="Ayuda", menu=self.ayuda)
 
@@ -203,4 +207,19 @@ class Pantalla():
         self.combo["values"] = temp
         self.combo2["values"] = temp
 
-        
+    
+    def mostar_pdf(self):
+            try:
+                #root = Tk()
+                ruta =  ""
+                filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("TXT files","*.pdf"),("all files","*.*")))
+                ruta = filename
+                if ruta != "":
+                    wb.open_new(ruta)
+                    return ruta
+                else:
+                    
+                    return None
+
+            except IndexError as e:
+                print(e)   
